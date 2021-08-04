@@ -1,4 +1,5 @@
 .idea
+.env
 
 coverage.html
-stratum-server
+water-jug-riddle-service
