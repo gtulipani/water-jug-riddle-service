@@ -83,7 +83,7 @@ This basic Backend Service has been divided in:
 - The project could be easily dockerized with a `docker-compose` or `Dockerfile`.
 
 ## CI
-The project is not configured with CI yet.
+**Travis** (`.travis.yml`) and **GitHub Workflows** have been configured as CI software.
 
 ## Examples
 Following examples are provided to understand how the API works. 
