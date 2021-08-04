@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/gtulipani/water-jug-riddle-service.svg?branch=master)](https://travis-ci.com/gtulipani/water-jug-riddle-service)
 # water-jug-riddle-service
 
 ## Intro
