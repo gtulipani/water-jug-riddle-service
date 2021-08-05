@@ -13,6 +13,7 @@ import (
 	"water-jug-riddle-service/service"
 
 	"github.com/joho/godotenv"
+	rice "github.com/GeertJohan/go.rice"
 )
 
 const (
@@ -20,6 +21,12 @@ const (
 )
 
 func main() {
+	// Define the rice box with the frontend client static files.
+	appBox, err := rice.FindBox("./client/build")
+	if err != nil {
+		log.Fatal(err)
+	}
+	
 	if _, err := os.Stat(envFile); !os.IsNotExist(err) {
 		if err := godotenv.Load(envFile); err != nil {
 			log.Fatalf("error loading .env file: %v", err.Error())
@@ -32,7 +39,7 @@ func main() {
 	}
 
 	svc := service.NewService()
-	handler := controller.NewHandler(svc)
+	handler := controller.NewHandler(appBox, svc)
 
 	server := &http.Server{
 		Addr:    ":" + cfg.HTTPPort,

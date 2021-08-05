@@ -2,10 +2,11 @@
 # water-jug-riddle-service
 
 ## Intro
-This is a basic Backend Service that exposes an API to solve the famous Water Jug Riddle. It has been designed with 
+This is a basic Service that exposes an API to solve the famous Water Jug Riddle. It has been designed with 
 only one API that accepts X (Jug 1 capacity), Y (Jug 2 capacity) and Z (desired capacity) and the response includes 
 all the necessary "operations" that need to be performed between Jugs in order to finally get the desired water amount.
-By returning a list of operations, this could be easily displayed and animated in a fancy UI.
+The project includes also a rudimentary UI with a form with the X, Y and Z inputs where the operations will be displayed. The UI was built using
+[React](https://reactjs.org/)
 
 ## Instructions
 The following instructions are useful to Build, Test and Run the server.
@@ -24,14 +25,20 @@ make gen
 ### Build
 After the mocks are created, the project can be easily built with:
 ```
-go build
-```
-
-Or even simpler:
-```
 make build
 ```
-This last command generates the mocks before building the code. Coverage report can also be created with the command:
+
+This last command will run:
+```
+# Build UI
+cd ./client && npm run build && cd ..
+# Build Backend
+CGO_ENABLED=0 go build -ldflags "-w" -a -o water-jug-riddle-service .
+# Merge them into a single binary
+rice append -i . --exec water-jug-riddle-service
+``` 
+
+Coverage report for the BE can also be created with the command:
 ```
 make cover
 ```
@@ -68,7 +75,13 @@ make run
 ### Testify
 [Testify](https://github.com/stretchr/testify) is used for assertions in UTs.
 
-## Architecture
+### React
+[React](https://reactjs.org/) is a JavaScript library for building user interfaces.
+
+### Go.Rice
+[Go.Rice](https://github.com/GeertJohan/go.rice) is a Go package that makes working with resources such as html, js, css, images and templates easy.
+
+## Backend Architecture
 This basic Backend Service has been divided in:
 - **config**: contains all the logic to retrieve environment variables. Right now only the `HTTP_PORT` but could be 
   more.
@@ -81,7 +94,8 @@ This basic Backend Service has been divided in:
   are assumed to be valid, therefore both of them are executed in parallel (using go-routines and WaitGroups).
 
 ### Improvements
-- The project could be easily dockerized with a `docker-compose` or `Dockerfile`.
+- The project could be dockerized with a `docker-compose` or `Dockerfile`.
+- After adding the UI, the CI needs to be reconfigured to work with both React and Go.
 
 ## CI
 **Travis** (`.travis.yml`) and **GitHub Workflows** have been configured as CI software.

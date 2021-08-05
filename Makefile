@@ -8,9 +8,20 @@ gen:
 	GO111MODULE=off go get github.com/matryer/moq
 	moq -out controller/mock_service.go -pkg controller ./service Service
 
+.PHONY: fe-build
+fe-build:
+	cd ./client && npm run build && cd ..
+
+.PHONY: be-build
+be-build:
+	CGO_ENABLED=0 go build -ldflags "-w" -a -o water-jug-riddle-service .
+
+.PHONY: all-build
+all-build:
+	rice append -i . --exec water-jug-riddle-service
+
 .PHONY: build
-build: gen
-	go build
+build: fe-build be-build all-build
 
 .PHONY: test
 test:
